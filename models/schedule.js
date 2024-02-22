@@ -25,3 +25,7 @@ const scheduleSchema = new Schema ({
     required: true,
   }
 })
+
+const Schedule = mongoose.model('Schedule', scheduleSchema)
+
+export { Schedule }
