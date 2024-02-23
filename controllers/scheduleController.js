@@ -1,21 +1,27 @@
-import { Schedule } from "../models/schedule";
+import { Schedule } from "../models/schedule.js";
 
-const submitForm = async (req, res) => {
-  try {
-    const { name, email, phone_number, customer_problem, appointment } = req.body
+function submitForm(req,res){
+  const { name, email, phone_number, customer_problem, appointment } = req.body
 
-    const newSchedule = new Schedule({
+
+    console.log(req.body)
+
+
+  const newSchedule = new Schedule({
       name,
       email,
       phone_number,
       customer_problem,
-      appointment
+      appointment,
     })
-    await newSchedule.save()
-    res.status(200).json({message:'Schedule created successfully'})
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error'})
-  }
+  newSchedule.save()
+    .then(() => {
+      res.status(200).json({message: 'Schedule created successfully'})
+    })
+    .catch((error) => {
+      console.error(error)
+      res.status(500).json({error: 'Internal Server Error'})
+    })
 }
 
 export { submitForm }
