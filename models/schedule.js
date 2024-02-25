@@ -14,15 +14,12 @@ const scheduleSchema = new Schema ({
   // i might add a max length to this key and value field after the frontend is complete
   phone_number:{
     type: String,
-    // required: true,
   },
   customer_problem:{
     type: String,
-    // required: true,
   },
   appointment:{
     type: Date,
-    // required: true,
   }
 })
 
