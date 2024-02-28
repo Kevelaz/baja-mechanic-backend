@@ -1,17 +1,15 @@
-import { error, info } from "console";
 import { Schedule } from "../models/schedule.js";
 import nodemailer from 'nodemailer'
 
-const { CLIENT_EMAIL, PASSWORD } = process.env
+const { BUSINESS_EMAIL, PASSWORD } = process.env
 
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
   auth: {
-    user: CLIENT_EMAIL,
+    user: BUSINESS_EMAIL,
     pass: PASSWORD,
   }
 })
-// console.log(transporter)
 
 function submitForm(req,res){
   const { name, email, phone_number, customer_problem, appointment } = req.body
@@ -27,10 +25,10 @@ function submitForm(req,res){
   newSchedule.save()
     .then(() => {
       const userMailOptions = {
-        from: CLIENT_EMAIL,
+        from: BUSINESS_EMAIL,
         to: email,
         subject: 'Appointment for BMM',
-        text: `Dear ${name}, \n\ thank you for choosing BMM, a mechanic will contact you shortly to confirm your appointment.`,
+        text: `Dear ${name}, \n\ Thank you for choosing BMM, a mechanic will contact you shortly to confirm your appointment.`,
       }
       transporter.sendMail(userMailOptions, (error, info) => {
         if(error) {
@@ -40,10 +38,11 @@ function submitForm(req,res){
         }
       })
       const clientMailOptions = {
-        from: CLIENT_EMAIL,
-        // to: 'kevsgrouch@gmail.com',
+        from: BUSINESS_EMAIL,
+        // for the 'to:' going to import PERSONAL_EMAIL and use that so ivan can receive the notifications for any new appointment
+        to: '', 
         subject: 'New Appointment Created',
-        text: `A new appointment has been scheduled by ${name} for ${appointment}, their issue is related to ${customer_problem}.Please call them at ${phone_number}.`
+        text: `A new appointment has been scheduled by ${name} for ${appointment},their issue is related to ${customer_problem}.Please call them at ${phone_number}.`
       }
       transporter.sendMail(clientMailOptions, (error, info) => {
         if(error) {
