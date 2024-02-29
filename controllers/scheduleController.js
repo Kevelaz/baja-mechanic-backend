@@ -1,7 +1,7 @@
 import { Schedule } from "../models/schedule.js";
 import nodemailer from 'nodemailer'
 
-const { BUSINESS_EMAIL, PASSWORD } = process.env
+const { BUSINESS_EMAIL, PASSWORD, PERSONAL_EMAIL } = process.env
 
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
@@ -39,8 +39,7 @@ function submitForm(req,res){
       })
       const clientMailOptions = {
         from: BUSINESS_EMAIL,
-        // for the 'to:' going to import PERSONAL_EMAIL and use that so ivan can receive the notifications for any new appointment
-        to: '', 
+        to: PERSONAL_EMAIL, 
         subject: 'New Appointment Created',
         text: `A new appointment has been scheduled by ${name} for ${appointment},their issue is related to ${customer_problem}.Please call them at ${phone_number}.`
       }
