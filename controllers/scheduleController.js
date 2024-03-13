@@ -21,7 +21,7 @@ function submitForm(req,res){
       customer_problem,
       appointment,
     })
-
+// userMailOptions is the message that is sent to the email that the customer entered, it is the confirmation email //
   newSchedule.save()
     .then(() => {
       const userMailOptions = {
@@ -37,6 +37,7 @@ function submitForm(req,res){
           console.log('Email sent to the user:' + info.response)
         }
       })
+// clientMailOptions is the function that handles the email sent to the business email, it relays the customer info, problem, and appointment date //
       const clientMailOptions = {
         from: BUSINESS_EMAIL,
         to: PERSONAL_EMAIL, 
